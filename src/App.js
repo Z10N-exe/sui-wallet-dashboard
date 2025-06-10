@@ -1,23 +1,42 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { AppBar, Toolbar, Typography, Container, Grid, CssBaseline } from '@mui/material';
+import WalletConnect from './components/WalletConnect';
+import Balance from './components/Balance';
+import SendTokens from './components/SendTokens';
+import TransactionHistory from './components/TransactionHistory';
 import './App.css';
 
 function App() {
+  const [account, setAccount] = useState(null);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <CssBaseline />
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6">Sui Wallet Dashboard</Typography>
+        </Toolbar>
+      </AppBar>
+      <Container sx={{ mt: 4 }}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <WalletConnect setAccount={setAccount} />
+          </Grid>
+          {account && (
+            <>
+              <Grid item xs={12} md={6}>
+                <Balance account={account} />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <SendTokens account={account} />
+              </Grid>
+              <Grid item xs={12}>
+                <TransactionHistory account={account} />
+              </Grid>
+            </>
+          )}
+        </Grid>
+      </Container>
     </div>
   );
 }
